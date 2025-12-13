@@ -17,11 +17,44 @@ model = get_model()
 
 # --- 檔案處理 (模擬資料庫) ---
 DB_FILE = "diary_db.json"
-
+        
 def load_data():
-    """讀取過去的日記紀錄"""
+    """讀取日記，如果檔案不存在，建立包含預設資料的檔案"""
     if not os.path.exists(DB_FILE):
-        return []
+        default_data = [
+            {
+                "summary": "連續讀了72小時資料結構，才搞懂bubble sort，很焦慮。",
+                "tags": ["焦慮", "bubble sort"],
+                "color": "#4B5365",
+                "advice": "焦慮代表你在乎。試著一步一步搞懂吧。",
+                "mood_score": 3,
+                "date": "2025-12-03 14:00",
+                "original_mood": "焦慮 😰"
+            },
+            {
+                "summary": "跟好久不見的高中同學去吃鵝鴨村，餐點令我們相當驚艷。",
+                "tags": ["開心", "鵝鴨村"],
+                "color": "#FFD700",
+                "advice": "這就是充電的時刻！記得這種快樂的感覺。",
+                "mood_score": 9,
+                "date": "2025-12-08 19:30",
+                "original_mood": "開心 😄"
+            },
+            {
+                "summary": "加油時被汽油濺了一身，隔壁大爺嚇到點一根菸壓壓驚。",
+                "tags": ["驚嚇", "汽油"],
+                "color": "#168616",
+                "advice": "趕快清潔身體，並請勿在加油站抽菸。",
+                "mood_score": 3, 
+                "date": "2025-06-14 16:20",
+                "original_mood": "焦慮 😰"
+            }
+        ]
+        with open(DB_FILE, "w", encoding="utf-8") as f:
+            json.dump(default_data, f, ensure_ascii=False, indent=4)
+        return default_data
+        
+    # 如果檔案存在，就正常讀取
     with open(DB_FILE, "r", encoding="utf-8") as f:
         try:
             return json.load(f)
@@ -38,7 +71,7 @@ def save_data(new_entry):
 # --- 頁面初始化 ---
 st.set_page_config(page_title="Memory Waltz", page_icon="💃", layout="wide")
 
-# --- 自訂 CSS 樣式：木質調與質感優化 ---
+# --- 自訂 CSS 樣式 ---
 st.markdown("""
     <style>
     /* google font */
