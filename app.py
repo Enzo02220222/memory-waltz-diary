@@ -12,7 +12,7 @@ GOOGLE_API_KEY = st.secrets["GOOGLE_API_KEY"]
 @st.cache_resource
 def get_model():
     genai.configure(api_key=GOOGLE_API_KEY)
-    return genai.GenerativeModel('gemini-2.0-flash-lite-preview-02-05')
+    return genai.GenerativeModel('gemini-2.5-flash') // 模型可能不太穩定，出現 429 再換模型看看
 model = get_model()
 
 # --- 檔案處理 (模擬資料庫) ---
@@ -306,6 +306,7 @@ elif page == "📊 回顧與週報":
                 st.line_chart(df["mood_score"])
             else:
                 st.write("累積更多資料後將顯示趨勢圖。")
+
 
 
 
